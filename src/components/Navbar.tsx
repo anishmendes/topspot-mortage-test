@@ -2,10 +2,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
-import { IoMdMenu, IoMdClose } from 'react-icons/io'
+import {  IoMdClose } from 'react-icons/io'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
-import logo from '../assets/logo.png'  // ← Your logo import
+import logo from '../assets/logo.png'
 
 const overlayVariants = { hidden: { opacity: 0 }, show: { opacity: 1 }, exit: { opacity: 0 } }
 
@@ -22,7 +22,6 @@ export default function Navbar() {
   const [consultOpen, setConsultOpen] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
-  const [statusMsg, setStatusMsg] = useState('')
 
   const openConsult = useCallback(() => {
     setConsultOpen(true)
@@ -33,7 +32,6 @@ export default function Navbar() {
     setConsultOpen(false)
     setSubmitted(false)
     setSending(false)
-    setStatusMsg('')
   }, [])
 
   useEffect(() => {
@@ -52,7 +50,6 @@ export default function Navbar() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSending(true)
-    setStatusMsg('Sending…')
     const tId = toast.loading('Submitting your enquiry…')
 
     try {
@@ -73,12 +70,10 @@ export default function Navbar() {
         form.reset()
         toast.success('Thank you! We’ll be in touch soon.', { id: tId })
       } else {
-        setStatusMsg(data.message || 'Something went wrong.')
         toast.error(data.message || 'Could not submit.', { id: tId })
       }
     } catch {
-      setStatusMsg('Network error. Please try again.')
-      toast.error('Network error.', { id: tId })
+      toast.error('Network error. Please try again.', { id: tId })
     } finally {
       setSending(false)
     }
@@ -88,9 +83,12 @@ export default function Navbar() {
     <>
       <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Topspot Logo" className="h-16 md:h-16 w-auto" />
+            <img 
+              src={logo} 
+              alt="Topspot Logo" 
+              className="h-12 md:h-16 lg:h-20 w-auto" 
+            />
           </Link>
 
           {/* Desktop Menu */}
@@ -123,7 +121,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Consultation Modal */}
+      {/* Modal */}
       <AnimatePresence>
         {consultOpen && (
           <Portal>

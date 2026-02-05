@@ -16,7 +16,7 @@ export default function MortgageCalculator() {
   })()
 
   let payment = monthly
-  let label = 'per month'
+  let label = 'per month' // kept but used now
 
   if (frequency === 'fortnightly') {
     payment = monthly / 2
@@ -49,8 +49,9 @@ export default function MortgageCalculator() {
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16">
               {/* Inputs */}
               <div className="space-y-10">
+                {/* Loan Amount */}
                 <div>
-                  <div className="flex justify-between mb-3">
+                  <div className="flex justify-between mb-4">
                     <label className="text-lg font-medium">Loan Amount</label>
                     <span className="text-xl font-bold text-pink-400">{format(loanAmount)}</span>
                   </div>
@@ -65,8 +66,9 @@ export default function MortgageCalculator() {
                   />
                 </div>
 
+                {/* Interest Rate */}
                 <div>
-                  <div className="flex justify-between mb-3">
+                  <div className="flex justify-between mb-4">
                     <label className="text-lg font-medium">Interest Rate</label>
                     <span className="text-xl font-bold text-pink-400">{interestRate}%</span>
                   </div>
@@ -81,8 +83,9 @@ export default function MortgageCalculator() {
                   />
                 </div>
 
+                {/* Term */}
                 <div>
-                  <div className="flex justify-between mb-3">
+                  <div className="flex justify-between mb-4">
                     <label className="text-lg font-medium">Loan Term</label>
                     <span className="text-xl font-bold text-pink-400">{termYears} years</span>
                   </div>
@@ -97,8 +100,9 @@ export default function MortgageCalculator() {
                   />
                 </div>
 
+                {/* Frequency */}
                 <div>
-                  <label className="block text-lg font-medium mb-3">Payment Frequency</label>
+                  <label className="block text-lg font-medium mb-4">Payment Frequency</label>
                   <div className="flex flex-wrap gap-3">
                     {['monthly', 'fortnightly', 'weekly'].map((f) => (
                       <button
@@ -130,33 +134,33 @@ export default function MortgageCalculator() {
                   transition={{ duration: 0.5 }}
                   className="text-center mb-12"
                 >
-                  <p className="text-5xl md:text-6xl font-extrabold text-pink-400 mb-3">
+                  <p className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-pink-400">
                     {format(payment)}
                   </p>
-                  <p className="text-xl text-gray-300">
-                    {frequency === 'monthly' ? 'per month' : frequency === 'fortnightly' ? 'per fortnight' : 'per week'}
+                  <p className="text-xl text-gray-300 mt-3">
+                    {label}
                   </p>
                 </motion.div>
 
-                <div className="grid grid-cols-2 gap-[60px] text-center">
-                  <div className="space-y-2">
-                    <p className="text-xl md:text-3xl font-bold text-white">
+                <div className="grid grid-cols-2 gap-20 text-center mt-8">
+                  <div className="space-y-3">
+                    <p className="text-xl md:text-xl font-bold text-white">
                       {format(totalRepayable)}
                     </p>
-                    <p className="text-base text-gray-400">Total repayable</p>
+                    <p className="text-base md:text-lg text-gray-400">Total repayable</p>
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-xl md:text-3xl font-bold text-white">
+                  <div className="space-y-3">
+                    <p className="text-xl md:text-xl font-bold text-white">
                       {format(totalInterest)}
                     </p>
-                    <p className="text-base text-gray-400">Total interest</p>
+                    <p className="text-base md:text-lg text-gray-400">Total interest</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Disclaimer */}
-            <div className="mt-12 text-center text-sm md:text-base opacity-80">
+            <div className="mt-16 text-center text-sm md:text-base opacity-80">
               This is an estimate only — actual payments vary. Speak to a Topspot advisor for accurate, personalised advice.
             </div>
           </motion.div>
