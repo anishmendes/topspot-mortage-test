@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
-import { IoMdClose } from 'react-icons/io' // only keeping close icon (menu not used)
+import { IoMdClose } from 'react-icons/io'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 import logo from '../assets/logo.png'
@@ -11,14 +11,9 @@ const overlayVariants = { hidden: { opacity: 0 }, show: { opacity: 1 }, exit: { 
 
 const modalVariants = {
   hidden: { opacity: 0, y: 24, scale: 0.98 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { type: 'spring', stiffness: 260, damping: 22 },
-  },
+  show: { opacity: 1, y: 0, scale: 1 },
   exit: { opacity: 0, y: 24, scale: 0.98 },
-}
+} as const
 
 const Portal = ({ children }: { children: React.ReactNode }) => createPortal(children, document.body)
 
@@ -111,7 +106,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile Menu – simple (no full hamburger yet) */}
+          {/* Mobile Menu */}
           <div className="md:hidden flex items-center space-x-6">
             <Link to="/mortgage-calculator" className="text-gray-700 hover:text-blue-600 text-sm font-medium">Calculator</Link>
             <button
@@ -144,6 +139,7 @@ export default function Navbar() {
                 initial="hidden"
                 animate="show"
                 exit="exit"
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }} // ← transition moved here (outside variants)
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex justify-between items-start mb-8">
