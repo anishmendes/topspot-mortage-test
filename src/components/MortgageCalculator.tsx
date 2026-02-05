@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 export default function MortgageCalculator() {
-  const [loanAmount, setLoanAmount] = useState(250000)
+  const [loanAmount, setLoanAmount] = useState(500000)
   const [interestRate, setInterestRate] = useState(5.5)
-  const [termYears, setTermYears] = useState(25)
+  const [termYears, setTermYears] = useState(30)
   const [frequency, setFrequency] = useState<'monthly' | 'fortnightly' | 'weekly'>('monthly')
 
   const monthly = (() => {
@@ -16,7 +16,7 @@ export default function MortgageCalculator() {
   })()
 
   let payment = monthly
-  let label = 'per month' // kept but used now
+  let label = 'per month'
 
   if (frequency === 'fortnightly') {
     payment = monthly / 2
@@ -30,7 +30,7 @@ export default function MortgageCalculator() {
   const totalInterest = totalRepayable - loanAmount
 
   const format = (num: number) =>
-    new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 }).format(num)
+    new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 }).format(num)
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 text-white">
@@ -52,13 +52,13 @@ export default function MortgageCalculator() {
                 {/* Loan Amount */}
                 <div>
                   <div className="flex justify-between mb-4">
-                    <label className="text-lg font-medium">Loan Amount</label>
+                    <label className="text-lg font-medium">Loan Amount (AUD)</label>
                     <span className="text-xl font-bold text-pink-400">{format(loanAmount)}</span>
                   </div>
                   <input
                     type="range"
                     min="50000"
-                    max="2000000"
+                    max="3000000"
                     step="10000"
                     value={loanAmount}
                     onChange={(e) => setLoanAmount(Number(e.target.value))}
@@ -69,7 +69,7 @@ export default function MortgageCalculator() {
                 {/* Interest Rate */}
                 <div>
                   <div className="flex justify-between mb-4">
-                    <label className="text-lg font-medium">Interest Rate</label>
+                    <label className="text-lg font-medium">Interest Rate (% p.a.)</label>
                     <span className="text-xl font-bold text-pink-400">{interestRate}%</span>
                   </div>
                   <input
@@ -86,7 +86,7 @@ export default function MortgageCalculator() {
                 {/* Term */}
                 <div>
                   <div className="flex justify-between mb-4">
-                    <label className="text-lg font-medium">Loan Term</label>
+                    <label className="text-lg font-medium">Loan Term (years)</label>
                     <span className="text-xl font-bold text-pink-400">{termYears} years</span>
                   </div>
                   <input
@@ -142,15 +142,15 @@ export default function MortgageCalculator() {
                   </p>
                 </motion.div>
 
-                <div className="grid grid-cols-2 gap-20 text-center mt-8">
+                <div className="grid grid-cols-2 gap-12 text-center mt-8">
                   <div className="space-y-3">
-                    <p className="text-xl md:text-xl font-bold text-white">
+                    <p className="text-3xl md:text-4xl font-bold text-white">
                       {format(totalRepayable)}
                     </p>
                     <p className="text-base md:text-lg text-gray-400">Total repayable</p>
                   </div>
                   <div className="space-y-3">
-                    <p className="text-xl md:text-xl font-bold text-white">
+                    <p className="text-3xl md:text-4xl font-bold text-white">
                       {format(totalInterest)}
                     </p>
                     <p className="text-base md:text-lg text-gray-400">Total interest</p>
