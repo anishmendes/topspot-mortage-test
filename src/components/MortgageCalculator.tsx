@@ -142,15 +142,15 @@ export default function MortgageCalculator() {
                   </p>
                 </motion.div>
 
-                <div className="grid grid-cols-2 gap-12 text-center mt-8">
+                <div className="grid grid-cols-2 gap-20 text-center mt-8">
                   <div className="space-y-3">
-                    <p className="text-3xl md:text-4xl font-bold text-white">
+                    <p className="text-3xl md:text-xl font-bold text-white">
                       {format(totalRepayable)}
                     </p>
                     <p className="text-base md:text-lg text-gray-400">Total repayable</p>
                   </div>
                   <div className="space-y-3">
-                    <p className="text-3xl md:text-4xl font-bold text-white">
+                    <p className="text-3xl md:text-xl font-bold text-white">
                       {format(totalInterest)}
                     </p>
                     <p className="text-base md:text-lg text-gray-400">Total interest</p>
