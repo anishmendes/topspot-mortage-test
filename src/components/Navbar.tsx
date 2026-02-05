@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
-import { IoMdMenu, IoMdClose } from 'react-icons/io'
+import { IoMdClose } from 'react-icons/io' // only keeping close icon (menu not used)
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 import logo from '../assets/logo.png'
@@ -111,7 +111,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu – simple (no full hamburger yet) */}
           <div className="md:hidden flex items-center space-x-6">
             <Link to="/mortgage-calculator" className="text-gray-700 hover:text-blue-600 text-sm font-medium">Calculator</Link>
             <button
@@ -124,7 +124,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Modal */}
+      {/* Consultation Modal */}
       <AnimatePresence>
         {consultOpen && (
           <Portal>
