@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
-import {  IoMdClose } from 'react-icons/io'
+import { IoMdMenu, IoMdClose } from 'react-icons/io'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 import logo from '../assets/logo.png'
@@ -11,21 +11,24 @@ const overlayVariants = { hidden: { opacity: 0 }, show: { opacity: 1 }, exit: { 
 
 const modalVariants = {
   hidden: { opacity: 0, y: 24, scale: 0.98 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 260, damping: 22 } },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: 'spring', stiffness: 260, damping: 22 },
+  },
   exit: { opacity: 0, y: 24, scale: 0.98 },
 }
 
 const Portal = ({ children }: { children: React.ReactNode }) => createPortal(children, document.body)
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
   const [consultOpen, setConsultOpen] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
 
   const openConsult = useCallback(() => {
     setConsultOpen(true)
-    setMenuOpen(false)
   }, [])
 
   const closeConsult = useCallback(() => {
