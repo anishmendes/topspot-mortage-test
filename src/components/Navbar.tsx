@@ -2,41 +2,32 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
-import { IoMdMenu, IoMdClose } from 'react-icons/io'
+import { IoMdClose } from 'react-icons/io'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 import logo from '../assets/logo.png'
 
-const overlayVariants = { hidden: { opacity: 0 }, show: { opacity: 1 }, exit: { opacity: 0 } }
+const overlayVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1 },
+  exit: { opacity: 0 },
+}
 
 const modalVariants = {
   hidden: { opacity: 0, y: 24, scale: 0.98 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { type: 'spring', stiffness: 260, damping: 22 },
-  },
+  show: { opacity: 1, y: 0, scale: 1 },
   exit: { opacity: 0, y: 24, scale: 0.98 },
-}
-
-const mobileMenuVariants = {
-  hidden: { opacity: 0, y: -20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
 }
 
 const Portal = ({ children }: { children: React.ReactNode }) => createPortal(children, document.body)
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
   const [consultOpen, setConsultOpen] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
 
   const openConsult = useCallback(() => {
     setConsultOpen(true)
-    setMenuOpen(false)
   }, [])
 
   const closeConsult = useCallback(() => {
@@ -45,14 +36,12 @@ export default function Navbar() {
     setSending(false)
   }, [])
 
-  // ESC key to close modal
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && closeConsult()
     if (consultOpen) document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [consultOpen, closeConsult])
 
-  // Lock scroll when modal open
   useEffect(() => {
     if (!consultOpen) return
     const prev = document.body.style.overflow
@@ -121,42 +110,17 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="md:hidden">
-            <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle Menu">
-              {menuOpen ? <IoMdClose className="text-3xl" /> : <IoMdMenu className="text-3xl" />}
+          {/* Mobile Menu */}
+          <div className="md:hidden flex items-center space-x-6">
+            <Link to="/mortgage-calculator" className="text-gray-700 hover:text-blue-600 text-sm font-medium">Calculator</Link>
+            <button
+              onClick={openConsult}
+              className="bg-pink-600 text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm"
+            >
+              Book Consultation
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial="hidden"
-              animate="show"
-              exit="exit"
-              variants={mobileMenuVariants}
-              className="md:hidden bg-white border-t shadow-sm"
-            >
-              <div className="container mx-auto px-6 py-6 flex flex-col space-y-4 text-center">
-                <Link to="/" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-blue-600 py-2">Home</Link>
-                <Link to="/about-us" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-blue-600 py-2">About Us</Link>
-                <Link to="/services" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-blue-600 py-2">Services</Link>
-                <Link to="/our-clients" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-blue-600 py-2">Our Clients</Link>
-                <Link to="/mortgage-calculator" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-blue-600 py-2">Mortgage Calculator</Link>
-                <Link to="/contact" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-blue-600 py-2">Contact Us</Link>
-
-                <button
-                  onClick={openConsult}
-                  className="bg-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-pink-700"
-                >
-                  Book Consultation
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
 
       {/* Consultation Modal */}
@@ -172,15 +136,16 @@ export default function Navbar() {
               onClick={closeConsult}
             >
               <motion.div
-                role="dialog"
-                aria-modal="true"
-                className="relative z-[9999] w-[95%] max-w-4xl rounded-2xl bg-white shadow-2xl p-8 md:p-12"
-                variants={modalVariants}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-                onClick={(e) => e.stopPropagation()}
-              >
+  role="dialog"
+  aria-modal="true"
+  className="relative z-[9999] w-[95%] max-w-4xl rounded-2xl bg-white shadow-2xl p-8 md:p-12"
+  variants={modalVariants}
+  initial="hidden"
+  animate="show"
+  exit="exit"
+  transition={{ type: 'spring', stiffness: 260, damping: 22 }} 
+  onClick={(e) => e.stopPropagation()}
+>
                 <div className="flex justify-between items-start mb-8">
                   <div>
                     <h3 className="text-2xl font-bold text-gray-900">Book a Free Consultation</h3>
